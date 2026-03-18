@@ -31,20 +31,6 @@ public class RNSaplingBridge: NSObject {
   private static func result(_ bytes: [UInt8]) -> String? { base64(from: bytes) }
   private static func result(_ value: Bool) -> String? { value ? "1" : "0" }
 
-  // MARK: - Authorizing Key
-
-  @objc public static func getProofAuthorizingKey(_ spendingKeyB64: String?, completion: @escaping RNSaplingStringCompletion) {
-    let r = getProofAuthorizingKeyImpl(spendingKeyB64)
-    completion(r.0, r.1)
-  }
-
-  private static func getProofAuthorizingKeyImpl(_ spendingKeyB64: String?) -> (String?, String?) {
-    guard let spendingKey = data(fromBase64: spendingKeyB64) else { return (nil, "Invalid spendingKey base64") }
-    do {
-      return (result(try sapling.getProofAuthorizingKey(from: spendingKey)), nil)
-    } catch { return (nil, error.localizedDescription) }
-  }
-
   // MARK: - Commitment
 
   @objc(verifyCommitment:addressB64:value:rcmB64:completion:)
@@ -91,22 +77,7 @@ public class RNSaplingBridge: NSObject {
 
   // MARK: - Key Agreement
 
-  @objc(keyAgreement:skB64:completion:)
-  public static func keyAgreement(
-    _ pB64: String?,
-    skB64: String?,
-    completion: @escaping RNSaplingStringCompletion
-  ) {
-    let r = keyAgreementImpl(pB64, skB64)
-    completion(r.0, r.1)
-  }
-
-  private static func keyAgreementImpl(_ pB64: String?, _ skB64: String?) -> (String?, String?) {
-    guard let p = data(fromBase64: pB64), let sk = data(fromBase64: skB64) else { return (nil, "Invalid args") }
-    do {
-      return (result(try sapling.keyAgreement(p: p, sk: sk)), nil)
-    } catch { return (nil, error.localizedDescription) }
-  }
+  // TODO: Add keyAgreement when it is fixed for Android
 
   // MARK: - Merkle Tree
 
@@ -197,23 +168,6 @@ public class RNSaplingBridge: NSObject {
     } catch { return (nil, error.localizedDescription) }
   }
 
-  @objc(deriveEpkFromEsk:eskB64:completion:)
-  public static func deriveEpkFromEsk(
-    _ diversifierB64: String?,
-    eskB64: String?,
-    completion: @escaping RNSaplingStringCompletion
-  ) {
-    let r = deriveEpkFromEskImpl(diversifierB64, eskB64)
-    completion(r.0, r.1)
-  }
-
-  private static func deriveEpkFromEskImpl(_ diversifierB64: String?, _ eskB64: String?) -> (String?, String?) {
-    guard let diversifier = data(fromBase64: diversifierB64), let esk = data(fromBase64: eskB64) else { return (nil, "Invalid args") }
-    do {
-      return (result(try sapling.deriveEpkFromEsk(diversifier: diversifier, esk: esk)), nil)
-    } catch { return (nil, error.localizedDescription) }
-  }
-
   // MARK: - Payment Address
 
   @objc(getPaymentAddress:indexB64:completion:)
@@ -258,22 +212,7 @@ public class RNSaplingBridge: NSObject {
     } catch { return (nil, error.localizedDescription) }
   }
 
-  @objc(getRawPaymentAddress:diversifierB64:completion:)
-  public static func getRawPaymentAddress(
-    _ incomingViewingKeyB64: String?,
-    diversifierB64: String?,
-    completion: @escaping RNSaplingStringCompletion
-  ) {
-    let r = getRawPaymentAddressImpl(incomingViewingKeyB64, diversifierB64)
-    completion(r.0, r.1)
-  }
-
-  private static func getRawPaymentAddressImpl(_ incomingViewingKeyB64: String?, _ diversifierB64: String?) -> (String?, String?) {
-    guard let ivk = data(fromBase64: incomingViewingKeyB64), let div = data(fromBase64: diversifierB64) else { return (nil, "Invalid args") }
-    do {
-      return (result(try sapling.getRawPaymentAddress(from: ivk, with: div)), nil)
-    } catch { return (nil, error.localizedDescription) }
-  }
+  // TODO: Add getRawPaymentAddress when it is fixed for Android
 
   @objc(getDiversifierFromRawPaymentAddress:completion:)
   public static func getDiversifierFromRawPaymentAddress(
@@ -291,21 +230,7 @@ public class RNSaplingBridge: NSObject {
     } catch { return (nil, error.localizedDescription) }
   }
 
-  @objc(getPkdFromRawPaymentAddress:completion:)
-  public static func getPkdFromRawPaymentAddress(
-    _ addressB64: String?,
-    completion: @escaping RNSaplingStringCompletion
-  ) {
-    let r = getPkdFromRawPaymentAddressImpl(addressB64)
-    completion(r.0, r.1)
-  }
-
-  private static func getPkdFromRawPaymentAddressImpl(_ addressB64: String?) -> (String?, String?) {
-    guard let address = data(fromBase64: addressB64) else { return (nil, "Invalid args") }
-    do {
-      return (result(try sapling.getPkd(fromRaw: address)), nil)
-    } catch { return (nil, error.localizedDescription) }
-  }
+  // TODO: Add getPkdFromRawPaymentAddress when it is fixed for Android
 
   // MARK: - Proving Context
 
@@ -419,42 +344,6 @@ public class RNSaplingBridge: NSObject {
     } catch { return (nil, error.localizedDescription) }
   }
 
-  @objc(prepareSpendDescriptionWithAuthorizingKey:authorizingKeyB64:addressB64:rcmB64:arB64:value:anchorB64:merklePathB64:completion:)
-  public static func prepareSpendDescriptionWithAuthorizingKey(
-    _ contextId: NSNumber?,
-    authorizingKeyB64: String?,
-    addressB64: String?,
-    rcmB64: String?,
-    arB64: String?,
-    value: NSNumber?,
-    anchorB64: String?,
-    merklePathB64: String?,
-    completion: @escaping RNSaplingStringCompletion
-  ) {
-    let r = prepareSpendDescriptionWithAuthorizingKeyImpl(contextId, authorizingKeyB64, addressB64, rcmB64, arB64, value, anchorB64, merklePathB64)
-    completion(r.0, r.1)
-  }
-
-  private static func prepareSpendDescriptionWithAuthorizingKeyImpl(
-    _ contextId: NSNumber?,
-    _ authorizingKeyB64: String?,
-    _ addressB64: String?,
-    _ rcmB64: String?,
-    _ arB64: String?,
-    _ value: NSNumber?,
-    _ anchorB64: String?,
-    _ merklePathB64: String?
-  ) -> (String?, String?) {
-    guard let cid = contextId?.intValue, let ctx = contextStore[cid],
-          let pak = data(fromBase64: authorizingKeyB64), let address = data(fromBase64: addressB64),
-          let rcm = data(fromBase64: rcmB64), let ar = data(fromBase64: arB64),
-          let v = value?.uint64Value, let anchor = data(fromBase64: anchorB64),
-          let merklePath = data(fromBase64: merklePathB64) else { return (nil, "Invalid args") }
-    do {
-      return (result(try sapling.prepareSpendDescriptionWithAuthorizingKey(with: ctx, using: pak, to: address, withRcm: rcm, withAr: ar, ofValue: v, withAnchor: anchor, at: merklePath)), nil)
-    } catch { return (nil, error.localizedDescription) }
-  }
-
   @objc(signSpendDescription:spendingKeyB64:arB64:sighashB64:completion:)
   public static func signSpendDescription(
     _ spendDescriptionB64: String?,
@@ -529,21 +418,7 @@ public class RNSaplingBridge: NSObject {
     } catch { return (nil, error.localizedDescription) }
   }
 
-  @objc(getOutgoingViewingKey:completion:)
-  public static func getOutgoingViewingKey(
-    _ viewingKeyB64: String?,
-    completion: @escaping RNSaplingStringCompletion
-  ) {
-    let r = getOutgoingViewingKeyImpl(viewingKeyB64)
-    completion(r.0, r.1)
-  }
-
-  private static func getOutgoingViewingKeyImpl(_ viewingKeyB64: String?) -> (String?, String?) {
-    guard let xfvk = data(fromBase64: viewingKeyB64) else { return (nil, "Invalid args") }
-    do {
-      return (result(try sapling.getOutgoingViewingKey(from: xfvk)), nil)
-    } catch { return (nil, error.localizedDescription) }
-  }
+  // TODO: Add getOutgoingViewingKey when it is fixed for Android
 
   @objc(getIncomingViewingKey:completion:)
   public static func getIncomingViewingKey(

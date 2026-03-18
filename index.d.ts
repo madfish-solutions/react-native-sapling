@@ -9,9 +9,6 @@ export type Base64 = string;
 /** Proving context handle (opaque string; pass to methods that need a context) */
 export type ProvingContextId = string;
 
-// Authorizing Key
-export function getProofAuthorizingKey(spendingKeyBase64: Base64): Promise<Base64>;
-
 // Commitment
 export function verifyCommitment(
   commitmentBase64: Base64,
@@ -25,9 +22,6 @@ export function initParameters(
   spendParametersBase64: Base64,
   outputParametersBase64: Base64
 ): Promise<void>;
-
-// Key Agreement
-export function keyAgreement(pBase64: Base64, skBase64: Base64): Promise<Base64>;
 
 // Merkle Tree
 export function merkleHash(
@@ -62,8 +56,6 @@ export function preparePartialOutputDescription(
   value: number
 ): Promise<Base64>;
 
-export function deriveEpkFromEsk(diversifierBase64: Base64, eskBase64: Base64): Promise<Base64>;
-
 // Payment Address
 export function getPaymentAddress(
   viewingKeyBase64: Base64,
@@ -75,14 +67,7 @@ export function getNextPaymentAddress(
   indexBase64: Base64
 ): Promise<Base64>;
 
-export function getRawPaymentAddress(
-  incomingViewingKeyBase64: Base64,
-  diversifierBase64: Base64
-): Promise<Base64>;
-
 export function getDiversifierFromRawPaymentAddress(addressBase64: Base64): Promise<Base64>;
-
-export function getPkdFromRawPaymentAddress(addressBase64: Base64): Promise<Base64>;
 
 // Proving Context
 export function initProvingContext(): Promise<ProvingContextId>;
@@ -103,17 +88,6 @@ export function createBindingSignature(
 export function prepareSpendDescriptionWithSpendingKey(
   contextId: ProvingContextId,
   spendingKeyBase64: Base64,
-  addressBase64: Base64,
-  rcmBase64: Base64,
-  arBase64: Base64,
-  value: number,
-  anchorBase64: Base64,
-  merklePathBase64: Base64
-): Promise<Base64>;
-
-export function prepareSpendDescriptionWithAuthorizingKey(
-  contextId: ProvingContextId,
-  authorizingKeyBase64: Base64,
   addressBase64: Base64,
   rcmBase64: Base64,
   arBase64: Base64,
@@ -145,36 +119,27 @@ export function getExtendedFullViewingKeyFromSpendingKey(
   spendingKeyBase64: Base64
 ): Promise<Base64>;
 
-export function getOutgoingViewingKey(viewingKeyBase64: Base64): Promise<Base64>;
-
 export function getIncomingViewingKey(viewingKeyBase64: Base64): Promise<Base64>;
 
 export interface SaplingModule {
-  getProofAuthorizingKey: typeof getProofAuthorizingKey;
   verifyCommitment: typeof verifyCommitment;
   initParameters: typeof initParameters;
-  keyAgreement: typeof keyAgreement;
   merkleHash: typeof merkleHash;
   computeNullifier: typeof computeNullifier;
   prepareOutputDescription: typeof prepareOutputDescription;
   preparePartialOutputDescription: typeof preparePartialOutputDescription;
-  deriveEpkFromEsk: typeof deriveEpkFromEsk;
   getPaymentAddress: typeof getPaymentAddress;
   getNextPaymentAddress: typeof getNextPaymentAddress;
-  getRawPaymentAddress: typeof getRawPaymentAddress;
   getDiversifierFromRawPaymentAddress: typeof getDiversifierFromRawPaymentAddress;
-  getPkdFromRawPaymentAddress: typeof getPkdFromRawPaymentAddress;
   initProvingContext: typeof initProvingContext;
   dropProvingContext: typeof dropProvingContext;
   randR: typeof randR;
   createBindingSignature: typeof createBindingSignature;
   prepareSpendDescriptionWithSpendingKey: typeof prepareSpendDescriptionWithSpendingKey;
-  prepareSpendDescriptionWithAuthorizingKey: typeof prepareSpendDescriptionWithAuthorizingKey;
   signSpendDescription: typeof signSpendDescription;
   getExtendedSpendingKey: typeof getExtendedSpendingKey;
   getExtendedFullViewingKey: typeof getExtendedFullViewingKey;
   getExtendedFullViewingKeyFromSpendingKey: typeof getExtendedFullViewingKeyFromSpendingKey;
-  getOutgoingViewingKey: typeof getOutgoingViewingKey;
   getIncomingViewingKey: typeof getIncomingViewingKey;
 }
 

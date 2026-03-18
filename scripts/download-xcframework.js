@@ -13,7 +13,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const SAPLING_VERSION = '0.0.10';
+const SAPLING_VERSION = '0.0.7';
 const REPO_URL = 'https://github.com/airgap-it/airgap-sapling.git';
 const ROOT = path.resolve(__dirname, '..');
 const XCF_DIR = path.join(ROOT, 'SaplingFFI.xcframework');

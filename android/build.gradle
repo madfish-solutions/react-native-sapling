@@ -12,18 +12,6 @@ android {
         targetSdkVersion safeExtGet('targetSdkVersion', 34)
         versionCode 1
         versionName "1.0"
-
-        externalNativeBuild {
-            cmake {
-                arguments "-DANDROID_STL=c++_shared"
-            }
-        }
-    }
-
-    externalNativeBuild {
-        cmake {
-            path "src/main/cpp/CMakeLists.txt"
-        }
     }
 
     // React Native 0.83 uses Java 17 toolchain by default.
@@ -41,7 +29,7 @@ dependencies {
     // AirGap Sapling Android wrapper (Java 17 compatible).
     // Exclude Kotlin stdlib so the parent project's Kotlin version is used and we avoid
     // "Module was compiled with an incompatible version of Kotlin" (e.g. 2.3.0 vs 2.1.0).
-    implementation('com.github.airgap-it:airgap-sapling:0.0.11-beta01') {
+    implementation('com.github.airgap-it:airgap-sapling:0.0.7-android-16kb') {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'

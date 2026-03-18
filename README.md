@@ -73,12 +73,10 @@ const nextAddress = await Sapling.getNextPaymentAddress(viewingKeyBase64, indexB
 // Random scalar
 const r = await Sapling.randR();
 
-// … and the rest of the API: getProofAuthorizingKey, verifyCommitment, keyAgreement,
-// merkleHash, computeNullifier, prepareOutputDescription, preparePartialOutputDescription,
-// getRawPaymentAddress, getDiversifierFromRawPaymentAddress, getPkdFromRawPaymentAddress,
-// createBindingSignature, prepareSpendDescriptionWithSpendingKey,
-// prepareSpendDescriptionWithAuthorizingKey, signSpendDescription,
-// getOutgoingViewingKey, getIncomingViewingKey
+// … and the rest of the API: verifyCommitment, merkleHash, computeNullifier,
+// prepareOutputDescription, preparePartialOutputDescription,
+// getDiversifierFromRawPaymentAddress, createBindingSignature,
+// prepareSpendDescriptionWithSpendingKey, signSpendDescription, getIncomingViewingKey
 ```
 
 ## API (JS)
@@ -90,27 +88,21 @@ All methods return **Promises**. Byte arrays are **base64 strings**; numeric val
 | `initParameters(spendParamsBase64, outputParamsBase64)` | Initialize Sapling parameters |
 | `initProvingContext()` | Returns `contextId` (number). Call `dropProvingContext(contextId)` when done. |
 | `dropProvingContext(contextId)` | Release proving context |
-| `getProofAuthorizingKey(spendingKeyBase64)` | |
 | `verifyCommitment(commitment, address, value, rcm)` | Returns boolean |
-| `keyAgreement(pBase64, skBase64)` | |
 | `merkleHash(depth, lhsBase64, rhsBase64)` | |
 | `computeNullifier(viewingKey, address, value, rcm, position)` | |
 | `prepareOutputDescription(contextId, viewingKey, address, rcm, value)` | |
 | `preparePartialOutputDescription(contextId, address, rcm, esk, value)` | |
 | `getPaymentAddress(viewingKey, indexBase64 \| null)` | `indexBase64` null = first address |
 | `getNextPaymentAddress(viewingKey, indexBase64)` | |
-| `getRawPaymentAddress(incomingViewingKey, diversifier)` | |
 | `getDiversifierFromRawPaymentAddress(address)` | |
-| `getPkdFromRawPaymentAddress(address)` | |
 | `randR()` | Random scalar (base64) |
 | `createBindingSignature(contextId, balance, sighashBase64)` | |
 | `prepareSpendDescriptionWithSpendingKey(contextId, spendingKey, address, rcm, ar, value, anchor, merklePath)` | |
-| `prepareSpendDescriptionWithAuthorizingKey(contextId, authorizingKey, address, rcm, ar, value, anchor, merklePath)` | |
 | `signSpendDescription(spendDescription, spendingKey, ar, sighash)` | |
 | `getExtendedSpendingKey(seedBase64, derivationPath)` | |
 | `getExtendedFullViewingKey(seedBase64, derivationPath)` | |
 | `getExtendedFullViewingKeyFromSpendingKey(spendingKeyBase64)` | |
-| `getOutgoingViewingKey(viewingKeyBase64)` | |
 | `getIncomingViewingKey(viewingKeyBase64)` | |
 
 ## License

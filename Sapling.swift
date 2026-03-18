@@ -8,16 +8,6 @@ public struct Sapling {
 
   public init() {}
 
-  // MARK: Authorizing Key
-
-  public func getProofAuthorizingKey(from spendingKey: ExtendedSpendingKey) throws -> ProofAuthorizingKey {
-    var keyCount = 0
-    guard let key = c_pak_from_xsk(spendingKey, spendingKey.count, &keyCount)?.toArray(count: keyCount) else {
-      throw Error.deriveKeyFailed
-    }
-    return key
-  }
-
   // MARK: Commitment
 
   public func verifyCommitment(_ commitment: [UInt8], to address: Address, forValue value: UInt64, with rcm: Rcm) throws -> Bool {
@@ -38,13 +28,7 @@ public struct Sapling {
 
   // MARK: Key Agreement
 
-  public func keyAgreement(p: [UInt8], sk: [UInt8]) throws -> [UInt8] {
-    var kaCount = 0
-    guard let ka = c_key_agreement(p, p.count, sk, sk.count, &kaCount)?.toArray(count: kaCount) else {
-      throw Error.createKeyAgreementFailed
-    }
-    return ka
-  }
+  // TODO: Add keyAgreement when it is fixed for Android
 
   // MARK: Merkle Tree
 
@@ -110,14 +94,6 @@ public struct Sapling {
     return description
   }
 
-  public func deriveEpkFromEsk(diversifier: Diversifier, esk: Esk) throws -> [UInt8] {
-    var epkCount = 0
-    guard let epk = c_derive_epk_from_esk(diversifier, diversifier.count, esk, esk.count, &epkCount)?.toArray(count: epkCount) else {
-      throw Error.deriveKeyFailed
-    }
-    return epk
-  }
-
   // MARK: Payment Address
 
   public func getPaymentAddress(from viewingKey: ExtendedFullViewingKey, at index: Index) throws -> [UInt8] {
@@ -136,17 +112,7 @@ public struct Sapling {
     return address
   }
 
-  public func getRawPaymentAddress(from incomingViewingKey: IncomingViewingKey, with diversifier: Diversifier) throws -> [UInt8] {
-    var addressCount = 0
-    guard let address = c_payment_address_from_ivk(
-      incomingViewingKey, incomingViewingKey.count,
-      diversifier, diversifier.count,
-      &addressCount
-    )?.toArray(count: addressCount) else {
-      throw Error.createAddressFailed
-    }
-    return address
-  }
+  // TODO: Add getRawPaymentAddress when it is fixed for Android
 
   public func getDiversifier(fromRaw rawAddress: Address) throws -> [UInt8] {
     var diversifierCount = 0
@@ -226,33 +192,6 @@ public struct Sapling {
     return description
   }
 
-  public func prepareSpendDescriptionWithAuthorizingKey(
-    with context: Context,
-    using authorizingKey: ProofAuthorizingKey,
-    to address: Address,
-    withRcm rcm: Rcm,
-    withAr ar: Ar,
-    ofValue value: UInt64,
-    withAnchor anchor: Anchor,
-    at merklePath: MerklePath
-  ) throws -> [UInt8] {
-    var descriptionCount = 0
-    guard let description = c_spend_description_from_pak(
-      context,
-      authorizingKey, authorizingKey.count,
-      address, address.count,
-      rcm, rcm.count,
-      ar, ar.count,
-      value,
-      anchor, anchor.count,
-      merklePath, merklePath.count,
-      &descriptionCount
-    )?.toArray(count: descriptionCount) else {
-      throw Error.spendDescriptionFailed
-    }
-    return description
-  }
-
   public func signSpendDescription(_ spendDescription: [UInt8], using spendingKey: ExtendedSpendingKey, with ar: Ar, sighash: [UInt8]) throws -> [UInt8] {
     var signedDescriptionCount = 0
     guard let signedDescription = c_sign_spend_description_with_xsk(
@@ -299,13 +238,7 @@ public struct Sapling {
     return key
   }
 
-  public func getOutgoingViewingKey(from viewingKey: ExtendedFullViewingKey) throws -> OutgoingViewingKey {
-    var keyCount = 0
-    guard let key = c_ovk_from_xfvk(viewingKey, viewingKey.count, &keyCount)?.toArray(count: keyCount) else {
-      throw Error.deriveKeyFailed
-    }
-    return key
-  }
+  // TODO: Add getOutgoingViewingKey when it is fixed for Android
 
   public func getIncomingViewingKey(from viewingKey: ExtendedFullViewingKey) throws -> IncomingViewingKey {
     var keyCount = 0
@@ -321,8 +254,6 @@ public struct Sapling {
   public typealias ExtendedSpendingKey = [UInt8]
   public typealias ExtendedFullViewingKey = [UInt8]
   public typealias IncomingViewingKey = [UInt8]
-  public typealias OutgoingViewingKey = [UInt8]
-  public typealias ProofAuthorizingKey = [UInt8]
 
   public typealias Address = [UInt8]
   public typealias Diversifier = [UInt8]
@@ -337,7 +268,6 @@ public struct Sapling {
   public enum Error: Swift.Error {
     case computeCommitmentFailed
     case initParametersFailed
-    case createKeyAgreementFailed
     case createMerkleHashFailed
     case computeNullifierFailed
     case outputDescriptionFailed
