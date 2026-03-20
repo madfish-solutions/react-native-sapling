@@ -1,4 +1,4 @@
-package com.madfish.sapling;
+package com.madfish.rnsapling;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

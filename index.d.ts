@@ -1,5 +1,5 @@
 /**
- * React Native bindings for airgap-sapling (Zcash Sapling crypto).
+ * React Native bindings for madfish-sapling (Zcash Sapling crypto).
  * Byte arrays are passed and returned as base64 strings.
  */
 

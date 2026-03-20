@@ -1,6 +1,6 @@
 # react-native-sapling
 
-React Native bindings for [airgap-sapling](https://github.com/airgap-it/airgap-sapling) (Zcash Sapling crypto). Compatible with React Native 0.72.x.
+React Native bindings for [madfish-sapling](https://github.com/madfish-solutions/madfish-sapling) (Zcash Sapling crypto). Compatible with React Native 0.72.x.
 
 All byte arrays are passed and returned as **base64 strings** in JavaScript.
 
@@ -14,7 +14,7 @@ yarn add react-native-sapling
 
 ### Android
 
-The library depends on [airgap-sapling](https://github.com/airgap-it/airgap-sapling) via JitPack. Ensure your root `build.gradle` has:
+The library depends on [madfish-sapling](https://github.com/madfish-solutions/madfish-sapling) via JitPack. Ensure your root `build.gradle` has:
 
 ```groovy
 allprojects {
@@ -34,10 +34,10 @@ npx react-native link react-native-sapling
 ### iOS
 
 1. Install pods: `cd ios && pod install`
-2. **Add the AirGap Sapling Swift package** so the native code can use the Sapling library:
+2. **Add the Madfish Sapling Swift package** so the native code can use the Sapling library:
    - In Xcode, open your `.xcworkspace`
    - **File → Add Package Dependencies…**
-   - Enter: `https://github.com/airgap-it/airgap-sapling`
+   - Enter: `https://github.com/madfish-solutions/madfish-sapling`
    - Add the **Sapling** library to your app target (and ensure it is available to the `RNSapling` / `react_native_sapling` target if needed for linking)
 
 Without this package, the iOS bridge still compiles but will return *"Sapling package not linked"* at runtime.

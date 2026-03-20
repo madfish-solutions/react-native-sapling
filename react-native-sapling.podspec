@@ -33,14 +33,10 @@ Pod::Spec.new do |s|
   # via Rosetta so the existing slice is used.
   xcf = '$(PODS_TARGET_SRCROOT)/SaplingFFI.xcframework'
   s.pod_target_xcconfig = {
-    'EXCLUDED_ARCHS[sdk=iphonesimulator*]'       => 'arm64',
     'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => "$(inherited) #{xcf}/ios-arm64",
-    'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]'  => "$(inherited) #{xcf}/ios-x86_64-simulator",
-    'OTHER_LDFLAGS'                               => '$(inherited) -lairgap_sapling',
+    'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]'  => "$(inherited) #{xcf}/ios-arm64_x86_64-simulator",
+    'OTHER_LDFLAGS'                               => '$(inherited) -lmadfish_sapling',
     'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES'
-  }
-  s.user_target_xcconfig = {
-    'EXCLUDED_ARCHS[sdk=iphonesimulator*]'       => 'arm64'
   }
 
 end

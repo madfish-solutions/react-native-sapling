@@ -1,5 +1,5 @@
 // Sapling.swift
-// Vendored from https://github.com/airgap-it/airgap-sapling (packages/sapling-ios/Sources/Sapling/Sapling.swift)
+// Vendored from https://github.com/madfish-solutions/madfish-sapling (packages/sapling-ios/Sources/Sapling/Sapling.swift)
 // Provides a Swift wrapper around the SaplingFFI C bindings.
 
 import SaplingFFI

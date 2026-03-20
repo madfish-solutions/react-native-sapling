@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Downloads the SaplingFFI.xcframework from the airgap-sapling GitHub repo
+ * Downloads the SaplingFFI.xcframework from the madfish-sapling GitHub repo
  * and patches the C headers to use angle-bracket system includes.
  *
  * Runs as an npm postinstall hook. Skips on non-macOS platforms since the
@@ -13,8 +13,8 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const SAPLING_VERSION = '0.0.10';
-const REPO_URL = 'https://github.com/airgap-it/airgap-sapling.git';
+const SAPLING_VERSION = '0.0.11-beta03';
+const REPO_URL = 'https://github.com/madfish-solutions/madfish-sapling.git';
 const ROOT = path.resolve(__dirname, '..');
 const XCF_DIR = path.join(ROOT, 'SaplingFFI.xcframework');
 
@@ -53,7 +53,7 @@ try {
   // brackets fixes this.
   const archDirs = fs.readdirSync(XCF_DIR).filter(d => d.startsWith('ios-'));
   for (const arch of archDirs) {
-    const headerPath = path.join(XCF_DIR, arch, 'Headers', 'airgap_sapling.h');
+    const headerPath = path.join(XCF_DIR, arch, 'Headers', 'madfish_sapling.h');
     if (fs.existsSync(headerPath)) {
       let header = fs.readFileSync(headerPath, 'utf8');
       header = header

@@ -1,7 +1,7 @@
 {
   "name": "react-native-sapling",
   "version": "0.0.1",
-  "description": "Bindings of airgap-sapling for react-native",
+  "description": "Bindings of madfish-sapling for react-native",
   "main": "index.js",
   "types": "index.d.ts",
   "repository": {
